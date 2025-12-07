@@ -16,7 +16,7 @@ Jeg valgte løbesport, som er billig, og nem at komme i gang med. Jeg lykkedes m
 sundere,
 og opdagede til min store overraskelse:
 
-- Jeg fik mere energi, ogsp selvom jeg både brugte tid og energi på at løbe.
+- Jeg fik mere energi, også selvom jeg både brugte tid og energi på at løbe.
 - I starten tænke jeg bare: "Jeg skal dø, jeg skal dø. Hold kæft hvor er det her hårdt. Hvorfor gør jeg det her". Men
   jeg ville gøre alt for at overvinde det, hvilket lykkedes efter et par måneder.
 - Da jeg tabte nogle kilo og var første mål at kunne løbe uden åndenød i 1 km. Senere 2, 3, 4, 5 km. Til sidst fandt jeg
