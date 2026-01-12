@@ -98,7 +98,9 @@ Diagrams are versioned with code. You can diff changes, review in PRs, and see t
 VS Code, IntelliJ, and GitHub all render Mermaid natively. No plugins, no external tools. You see the diagram right where you edit the code.
 
 ### AI-Friendly
-This is the game-changer. AI agents can read plain text Markdown. They can understand your architecture, suggest improvements, help you refactor, and keep documentation in sync with code changes. When I update a service, I can ask the AI to update the corresponding diagrams—and it actually can.
+This is the game-changer. AI agents can read plain text Markdown, but they are blind to your draw.io XML or Visio binaries.
+
+By keeping your architecture in the repo, you are essentially providing a "map" for your AI coding assistants. When you feed a folder of Markdown-based diagrams into an LLM's context window, the model immediately understands the system's boundaries, state transitions, and business logic. It can then suggest code that actually respects your design patterns, help you refactor without breaking architectural rules, and even update the documentation for you as the code changes.
 
 ### Export Anywhere
 Your repository is the source of truth. When you need diagrams in Confluence, a presentation, or a PNG for stakeholders, you export from Mermaid. The exports are derivatives, not the source.
