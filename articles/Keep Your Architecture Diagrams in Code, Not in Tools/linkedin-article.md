@@ -29,7 +29,7 @@ No external tools. No expensive licenses. No sync problems.
 
 Everything that describes your system—domain entities, database schemas, workflow sequences, state transitions—lives in `docs/` alongside your source code.
 
-**[Screenshot 1: screenshot-1.png]**
+![Modular organization: one file per entity, versioned with your code](https://github.com/flemming-n-larsen/architecture-as-code-example/blob/main/screenshots/screenshot-1.png?raw=true)
 *Modular organization: one file per entity, versioned with your code*
 
 Each entity, workflow, and decision gets its own Markdown file with embedded Mermaid diagrams. When you refactor the `Order` service, you update `docs/architecture/domain/order.md` in the same pull request. Reviewers see the architecture change alongside the implementation.
@@ -40,13 +40,13 @@ Each entity, workflow, and decision gets its own Markdown file with embedded Mer
 
 I've published a complete example repository demonstrating this approach:
 
-👉 **https://github.com/flemming-n-larsen/architecture-as-code-example**
+👉 **[architecture-as-code-example](https://github.com/flemming-n-larsen/architecture-as-code-example)**
 
 It's a realistic e-commerce domain with 5 entities (Customer, Order, OrderItem, Product, Payment), 3 workflows, and 24 Mermaid diagrams—all in plain text Markdown.
 
 Here's what GitHub renders natively, with no plugins or external tools:
 
-**[Screenshot 2: screenshot-2.png]**
+![GitHub renders Mermaid diagrams natively—no external tools needed](https://github.com/flemming-n-larsen/architecture-as-code-example/blob/main/screenshots/screenshot-2.png?raw=true)
 *GitHub renders Mermaid diagrams natively—no external tools needed*
 
 The sequence diagram above shows a complete order creation flow: stock validation, transaction handling, payment processing, and error cases. It's all plain text in a `.md` file, but GitHub (and your IDE) renders it as a visual diagram.
@@ -84,7 +84,7 @@ stateDiagram-v2
 
 Every file links to related concepts. The `Order` entity links to `Customer`, `OrderItem`, `Payment`, and the `Create Order` flow. Navigation is hyperlinked, so you explore based on what you need.
 
-**[Screenshot 3: screenshot-3.png]**
+![Hyperlinked navigation: explore the architecture based on what you need](https://github.com/flemming-n-larsen/architecture-as-code-example/blob/main/screenshots/screenshot-3.png?raw=true)
 *Hyperlinked navigation: explore the architecture based on what you need*
 
 ---
@@ -104,7 +104,7 @@ This is the game-changer. AI agents can read plain text Markdown. They can under
 Your repository is the source of truth. When you need diagrams in Confluence, a presentation, or a PNG for stakeholders, you export from Mermaid. The exports are derivatives, not the source.
 
 - Mermaid → PNG/SVG (via mermaid.live or CLI)
-- Mermaid → Confluence (paste rendered images or use plugins)
+- Mermaid → Confluence (Confluence now has a **native Mermaid macro**—paste your diagram source directly and it renders for non-tech stakeholders)
 - Mermaid → draw.io (via conversion tools when needed)
 
 ### No Expensive Licenses
@@ -120,11 +120,13 @@ Mermaid is open source. Markdown is universal. Your documentation isn't trapped 
 4. **Update diagrams in the same PR** as the code they describe
 5. **Review architecture changes** alongside implementation changes
 
+> ⚠️ **Watch for broken links:** Since you're creating a modular structure (one file per entity), you're essentially building a small wiki inside `docs/`. When renaming files, verify your Markdown cross-links still resolve. Consider adding a link-checking step to your CI pipeline.
+
 The example repository shows exactly how to structure this:
 
-👉 **https://github.com/flemming-n-larsen/architecture-as-code-example**
+👉 **[architecture-as-code-example](https://github.com/flemming-n-larsen/architecture-as-code-example)**
 
-Fork it. Adapt it for your domain. Start with one entity and grow from there.
+Use it as inspiration. Adapt the structure and patterns for your own domain. Start with one entity and grow from there.
 
 ---
 
@@ -140,11 +142,7 @@ You might never go back to Confluence diagrams again.
 
 ---
 
-*Have questions or want to share your experience? Drop a comment—I'd love to hear how you're approaching architecture documentation.*
-
----
-
-**Repository:** https://github.com/flemming-n-larsen/architecture-as-code-example
+**Repository:** [architecture-as-code-example](https://github.com/flemming-n-larsen/architecture-as-code-example)
 
 #SoftwareArchitecture #DeveloperTools #TechWriting #Mermaid #DocumentationAsCode #Monorepo #AIAssisted
 
