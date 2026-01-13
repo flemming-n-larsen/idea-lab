@@ -1,6 +1,6 @@
 # Keep Your Architecture Diagrams in Code, Not in Tools
 
-I've been there. You spend hours crafting detailed architecture diagrams in draw.io, embedding them in Confluence pages with extensive documentation. Stakeholders can read and comment. Everything looks great—until the code evolves.
+I've been there. You spend hours crafting detailed architecture diagrams in diagrams.net (draw.io), embedding them in Confluence pages with extensive documentation. Stakeholders can read and comment. Everything looks great—until the code evolves.
 
 Three sprints later, the diagrams are out of sync. That service was renamed. The payment flow changed. The database schema has new tables. You know you should update the diagrams, but refactoring documentation across multiple Confluence pages is slow and painful. So you don't. And neither does anyone else.
 
@@ -74,6 +74,20 @@ classDiagram
 ```
 
 ```mermaid
+erDiagram
+    Order ||--o{ OrderItem : contains
+    Order }o--|| Customer : "placed by"
+    Order ||--o| Payment : "paid via"
+    Order {
+        uuid id PK
+        uuid customerId FK
+        datetime orderDate
+        decimal totalAmount
+        string status
+    }
+```
+
+```mermaid
 stateDiagram-v2
     [*] --> pending: Order created
     pending --> confirmed: Payment successful
@@ -81,6 +95,9 @@ stateDiagram-v2
     confirmed --> shipped: Items dispatched
     shipped --> delivered: Customer receives order
 ```
+
+**Related Entities:** [Customer](../domain/customer.md) · [OrderItem](../domain/order-item.md) · [Payment](../domain/payment.md)  
+**Workflows:** [Create Order](../flows/create-order.md) · [Payment Processing](../flows/payment-processing.md)
 
 Every file links to related concepts. The `Order` entity links to `Customer`, `OrderItem`, `Payment`, and the `Create Order` flow. Navigation is hyperlinked, so you explore based on what you need.
 
