@@ -1,7 +1,7 @@
 # Keep Your Architecture Diagrams in Code, Not in Tools
 
 ## The Problem
-Architecture diagrams in draw.io, Lucidchart, or Visio get outdated fast. They live outside your repo, never get updated, and are invisible to AI tools.
+Architecture diagrams in diagrams.net (draw.io), Lucidchart, or Visio get outdated fast. They live outside your repo, never get updated, and are invisible to AI tools.
 
 ## The Solution
 Store diagrams as Markdown + Mermaid in your code repository.

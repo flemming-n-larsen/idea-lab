@@ -29,7 +29,7 @@ No external tools. No expensive licenses. No sync problems.
 
 Everything that describes your system—domain entities, database schemas, workflow sequences, state transitions—lives in `docs/` alongside your source code.
 
-![Modular organization: one file per entity, versioned with your code](https://github.com/flemming-n-larsen/architecture-as-code-example/blob/main/screenshots/screenshot-1.png?raw=true)
+![Modular organization: one file per entity, versioned with your code](https://github.com/flemming-n-larsen/architecture-as-code-example/blob/main/screenshots/folder-structure.png?raw=true)
 *Modular organization: one file per entity, versioned with your code*
 
 Each entity, workflow, and decision gets its own Markdown file with embedded Mermaid diagrams. When you refactor the `Order` service, you update `docs/architecture/domain/order.md` in the same pull request. Reviewers see the architecture change alongside the implementation.
@@ -46,7 +46,7 @@ It's a realistic e-commerce domain with 5 entities (Customer, Order, OrderItem, 
 
 Here's what GitHub renders natively, with no plugins or external tools:
 
-![GitHub renders Mermaid diagrams natively—no external tools needed](https://github.com/flemming-n-larsen/architecture-as-code-example/blob/main/screenshots/screenshot-2.png?raw=true)
+![GitHub renders Mermaid diagrams natively—no external tools needed](https://github.com/flemming-n-larsen/architecture-as-code-example/blob/main/screenshots/create-order-flow.png?raw=true)
 *GitHub renders Mermaid diagrams natively—no external tools needed*
 
 The sequence diagram above shows a complete order creation flow: stock validation, transaction handling, payment processing, and error cases. It's all plain text in a `.md` file, but GitHub (and your IDE) renders it as a visual diagram.
@@ -73,6 +73,8 @@ classDiagram
     }
 ```
 
+![Class diagram showing Order entity structure](https://github.com/flemming-n-larsen/architecture-as-code-example/blob/main/screenshots/order-class-diagram.png?raw=true)
+
 ```mermaid
 erDiagram
     Order ||--o{ OrderItem : contains
@@ -87,6 +89,8 @@ erDiagram
     }
 ```
 
+![ER diagram showing Order database schema](https://github.com/flemming-n-larsen/architecture-as-code-example/blob/main/screenshots/order-ER-diagram.png?raw=true)
+
 ```mermaid
 stateDiagram-v2
     [*] --> pending: Order created
@@ -95,6 +99,8 @@ stateDiagram-v2
     confirmed --> shipped: Items dispatched
     shipped --> delivered: Customer receives order
 ```
+
+![State diagram showing Order lifecycle](https://github.com/flemming-n-larsen/architecture-as-code-example/blob/main/screenshots/order-state-diagram.png?raw=true)
 
 **Related Entities:** [Customer](../domain/customer.md) · [OrderItem](../domain/order-item.md) · [Payment](../domain/payment.md)  
 **Workflows:** [Create Order](../flows/create-order.md) · [Payment Processing](../flows/payment-processing.md)
@@ -164,4 +170,3 @@ You might never go back to Confluence diagrams again.
 **Repository:** [architecture-as-code-example](https://github.com/flemming-n-larsen/architecture-as-code-example)
 
 #SoftwareArchitecture #DeveloperTools #TechWriting #Mermaid #DocumentationAsCode #Monorepo #AIAssisted
-
