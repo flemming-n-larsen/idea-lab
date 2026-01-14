@@ -13,12 +13,5 @@ Store diagrams as Markdown + Mermaid in your code repository.
 - **AI can read it** - Plain text is LLM-friendly
 - **Free and portable** - Export to PNG/Confluence when needed
 
-## Quick Start
-
-1. Create `docs/architecture/` in your repo
-2. Add Markdown files with Mermaid diagrams (class, ER, state)
-3. Cross-link entities and workflows
-4. Update diagrams in the same PR as code
-
 ## Example in GitHub repository:
 https://github.com/flemming-n-larsen/architecture-as-code-example
