@@ -86,5 +86,5 @@ This article will:
 Use the existing e-commerce domain from architecture-as-code-example to show:
 - Adding customer loyalty points feature
 - Creating change specification with chat prompts
-- Using Claude Opus for planning, GitHub Copilot for execution
+- Using strong AI for planning, regular AI for execution
 - Integrating /openspec with existing /docs architecture

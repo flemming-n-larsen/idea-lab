@@ -30,13 +30,13 @@ architecture-aligned code generation across different AI sessions and team membe
 ### Repository Structure
 
 - Follow the existing structure in `/docs` and `/openspec`
-- All business logic must have corresponding specifications in `/openspec`
+- All business logic must have corresponding specifications in `/openspec/specs`
 - Architecture diagrams in `/docs` must be updated when entity structure changes
 
 ### Code Organization
 
 - Domain entities follow the existing pattern (see `/docs/architecture/domain/`)
-- Business rules are defined in `/openspec/business-rules/`
+- Business rules are defined in `/openspec/specs/`
 - State machines must match the diagrams in entity documentation
 - API endpoints follow RESTful conventions
 
@@ -100,7 +100,7 @@ describe('Order.cancelOrder', () => {
  * Calculates loyalty points earned for an order
  * @param orderTotal - Order total after taxes and shipping
  * @returns Points earned (1 point per dollar, max 500 points)
- * @see /openspec/change-specs/loyalty-points.md section 2.1
+ * @see /openspec/changes/loyalty-points/specs/customer/spec.md
  */
 function calculateLoyaltyPoints(orderTotal: number): number {
     // Implementation...
@@ -109,10 +109,10 @@ function calculateLoyaltyPoints(orderTotal: number): number {
 
 ### Specification References
 
-When implementing features from change specifications, include references:
+When implementing features from change proposals, include references:
 
 ```typescript
-// Reference: /openspec/change-specs/loyalty-points.md section 3.2
+// Reference: /openspec/changes/loyalty-points/proposal.md
 // Business rule: Points expire 12 months after earning date
 ```
 
@@ -148,7 +148,7 @@ When implementing features from change specifications, include references:
 
 ### Order Processing
 
-- Always validate order state transitions (see `/openspec/business-rules/order-validation.md`)
+- Always validate order state transitions (see `/openspec/specs/order/spec.md`)
 - Check inventory before confirming orders
 - Payment must be authorized before order confirmation
 - Refunds are processed for cancelled confirmed orders

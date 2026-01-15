@@ -3,6 +3,18 @@
 This directory demonstrates how **OpenSpec** integrates with the **architecture-as-code** approach from the previous
 article.
 
+## Terminology
+
+This example uses two AI categories:
+
+| Term           | Description                                                                    | Examples                                 | Use For                                                     |
+|:---------------|:-------------------------------------------------------------------------------|:-----------------------------------------|:------------------------------------------------------------|
+| **Strong AI**  | Premium, frontier-class models with advanced reasoning and high-level strategy | Claude 4.5 Opus, Gemini Ultra            | Spec creation, architectural planning, requirement analysis |
+| **Regular AI** | High-performance coding assistants, cost-effective for implementation          | Claude 4.5 Sonnet, GPT-5.2, Gemini 3 Pro | Code implementation, task execution, archiving              |
+
+When we say "AI agent", we mean an **agentic AI** that can execute multi-step tasks, read/write files, and run commands
+autonomously.
+
 ## Directory Structure
 
 ```
@@ -17,14 +29,25 @@ example-repo/
 │       └── flows/
 │           ├── create-order.md       # Sequence diagrams
 │           └── payment-processing.md
-├── openspec/                         # Specifications (this article)
-│   ├── main-spec.md                  # Aggregated system specifications
-│   ├── change-specs/
-│   │   ├── loyalty-points.md         # Active change specification
-│   │   └── archived/
-│   │       └── user-registration.md  # Completed change specs
-│   └── business-rules/
-│       └── order-validation.md       # Domain rules & constraints
+├── openspec/                         # Specifications (OpenSpec structure)
+│   ├── specs/                        # Source of truth specifications
+│   │   ├── order/
+│   │   │   └── spec.md               # Order domain specification
+│   │   ├── customer/
+│   │   │   └── spec.md               # Customer domain specification
+│   │   └── payment/
+│   │       └── spec.md               # Payment domain specification
+│   └── changes/                      # Active and archived change proposals
+│       ├── loyalty-points/           # Active change proposal
+│       │   ├── proposal.md           # What and why
+│       │   ├── tasks.md              # Implementation checklist
+│       │   └── specs/
+│       │       └── customer/
+│       │           └── spec.md       # Spec delta for this change
+│       └── archived/
+│           └── user-registration/    # Completed change proposal
+│               ├── proposal.md
+│               └── tasks.md
 └── src/
     └── ...                           # Application code
 ```
@@ -45,26 +68,27 @@ example-repo/
 
 ### /openspec provides BEHAVIOR
 
+- **/openspec/specs/** - Source of truth specifications with business rules
+- **/openspec/changes/** - Change proposals with tasks and spec deltas
 - **Why design decisions were made** (specifications document intent)
-- **What business rules apply** (validation logic, constraints)
-- **How changes are managed** (change specifications, evolution tracking)
+- **How changes are managed** (proposals track evolution)
 
 ## AI Agent Usage Pattern
 
-### Planning Mode: Strong AI (Claude Opus)
+### Planning Mode: Strong AI
 
 ```
-"Create a new change specification for: Add customer loyalty points system"
+"Create a new change proposal for: Add customer loyalty points system"
 
-"Review this change specification and ask questions about edge cases"
+"Review this change proposal and ask questions about edge cases"
 
-"Archive change specification loyalty-points and update main-spec.md"
+"Archive the loyalty-points change and update the specs"
 ```
 
-### Execution Mode: Regular AI (GitHub Copilot)
+### Execution Mode: Regular AI
 
 ```typescript
-// Reference: /openspec/change-specs/loyalty-points.md section 2.1
+// Reference: /openspec/changes/loyalty-points/specs/customer/spec.md
 // Follow guidelines in AGENTS.md
 // Implement LoyaltyPoints entity following business rules
 
@@ -78,13 +102,13 @@ code generation.
 
 ## OpenSpec Workflow Example
 
-1. **Initial Spec (Step 0):** Document existing system behavior in `main-spec.md`
-2. **Foundation Review (Step 1):** Ensure baseline specification is accurate
-3. **Change Spec (Step 2):** Create `change-specs/loyalty-points.md` for new feature
-4. **Review (Step 3):** Use Claude Opus to refine and ask clarifying questions
-5. **Execute (Step 4):** Use GitHub Copilot to implement tasks one at a time
-6. **Archive (Step 5):** Move completed spec to `archived/` and update main spec
-7. **Iterate (Step 6):** Create next change specification
+1. **Create Initial Specs (Step 1):** Document existing system behavior in `/openspec/specs/`
+2. **Foundation Review (Step 2):** Ensure baseline specs are accurate
+3. **Create Change Proposal (Step 3):** Create `/openspec/changes/loyalty-points/` with proposal.md and tasks.md
+4. **Review (Step 4):** Use strong AI to refine and ask clarifying questions
+5. **Execute (Step 5):** Use regular AI to implement tasks one at a time
+6. **Archive (Step 6):** Move completed change to `changes/archived/` and merge spec deltas
+7. **Iterate:** Create next change proposal
 
 ## Key Benefits
 
@@ -112,9 +136,9 @@ code generation.
 
 1. **Create `/openspec` folder** alongside existing `/docs`
 2. **Create `AGENTS.md` file** in repository root with AI guidelines
-3. **Document one existing feature** as your baseline specification
+3. **Document one existing feature** as your baseline specs in `/openspec/specs/`
 4. **Try the workflow** with your next feature:
-    - Use strong AI for change specification creation
+    - Use strong AI for change proposal creation
     - Review and refine before implementation
     - Use regular AI for code generation with spec and AGENTS.md references
     - Archive completed change specs

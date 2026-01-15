@@ -14,12 +14,46 @@ business rules, validation logic, or why certain design decisions were made. Whe
 it generates code that compiles but potentially violates your architectural patterns and constraints.
 
 **This is the "internal view" problem:** AI agents need more than structure—they need the specifications that capture
-your design intent, requirements, and business rules.
+your design intent, business rules, and the reasoning behind architectural decisions.
 
 **Note:** This article introduces the concept of spec-driven development (SDD) and demonstrates my personal workflow
 using OpenSpec as an example. It's not a comprehensive OpenSpec tutorial—for that, refer to
 the [official documentation](https://github.com/Fission-AI/OpenSpec). Instead, I'll show you the principles and how I
 apply them in practice.
+
+---
+
+## Terminology: AI Agents Used in This Article
+
+Before we dive in, let's clarify the AI terminology used throughout this article:
+
+### What is an Agentic AI?
+
+When I refer to an **AI assistant** or **AI agent** in this article, I mean an **agentic AI**—an AI that can:
+
+* **Execute multi-step tasks** autonomously
+* **Read and write files** in your codebase
+* **Run terminal commands**
+* **Make decisions** based on context and instructions
+
+Examples include **Claude Code**, **GitHub Copilot (agent mode)**, **Cursor**, **Windsurf**, and similar coding
+assistants that go beyond simple autocomplete.
+
+### Strong AI vs Regular AI
+
+I distinguish between two categories based on capability and cost:
+
+| Term           | Description                                                                    | Examples                                 | Use For                                                     |
+|:---------------|:-------------------------------------------------------------------------------|:-----------------------------------------|:------------------------------------------------------------|
+| **Strong AI**  | Premium, frontier-class models with advanced reasoning and high-level strategy | Claude 4.5 Opus, Gemini Ultra            | Spec creation, architectural planning, requirement analysis |
+| **Regular AI** | High-performance coding assistants, cost-effective for implementation          | Claude 4.5 Sonnet, GPT-5.2, Gemini 3 Pro | Code implementation, task execution, archiving              |
+
+**Why the distinction?** **Strong AI** models excel at understanding complex requirements and reasoning about edge
+cases—but they are more resource-intensive. **Regular AI** models are incredibly fast and perfectly capable of
+implementing well-defined tasks from clear specifications. Use **strong AI** for planning, and **regular AI** for
+execution.
+
+From this point forward, I'll use only these terms: **strong AI** and **regular AI**.
 
 ---
 
@@ -58,7 +92,8 @@ documentation tool.
 There are several popular spec-driven development methodologies:
 
 - **[GitHub Spec-Kit](https://github.com/github/spec-kit)** - GitHub's approach to specifications
-- **[BMAD (Build More, Architect Dreams)](https://github.com/bmad-code-org/BMAD-METHOD)** - Comprehensive architectural methodology
+- **[BMAD (Build More, Architect Dreams)](https://github.com/bmad-code-org/BMAD-METHOD)** - Comprehensive architectural
+  methodology
 - **[Kiro (by Amazon/AWS)](https://kiro.dev/)** - AWS-backed development framework
 
 I chose **OpenSpec** for three reasons:
@@ -82,16 +117,16 @@ the [official OpenSpec documentation](https://github.com/Fission-AI/OpenSpec?tab
 
 Here's how I structure it when working with AI agents (my own numbering for clarity):
 
-### 🤖 Step 0: Create Initial Specs (Brownfield or Greenfield)
+### 🤖 Step 1: Create Initial Specs (Brownfield or Greenfield)
 
-**AI-driven** - Use a strong AI agent (Claude Opus-level) to document the current system's behavior and design decisions
+**AI-driven** - Use strong AI to document the current system's behavior and design decisions
 for existing projects, or define initial requirements and architecture for new projects. These become your source of
 truth in `openspec/specs/`.
 
 **💡 Tip:** The AI can ask clarifying questions and help you think through edge cases you might miss. This is
 collaborative work between you and the AI.
 
-### 👤 Step 1: Review the Foundation
+### 👤 Step 2: Review the Foundation
 
 **Human review** - You must carefully review and validate that everything in your specs is correct. This
 becomes your architectural foundation.
@@ -101,10 +136,10 @@ The AI creates, but you validate. You will not lose any time soon to AI as this 
 
 ### The Change Cycle
 
-**2. 🤖 Create Change Proposal** - AI-driven: Define what you want to add or modify  
-**3. 👤 Review the proposal** - Human review: Refine it before starting any implementation!  
-**4. 🔁 Execute one task at a time** - AI-driven: Implement incrementally (loop until all tasks complete)  
-**5. 🤖 Archive when done** - AI-driven: The delta updates the main specs
+**3. 🤖 Create Change Proposal** - AI-driven: Define what you want to add or modify  
+**4. 👤 Review the proposal** - Human review: Refine it before starting any implementation!  
+**5. 🔁 Execute one task at a time** - AI-driven: Implement incrementally (loop until all tasks complete)  
+**6. 🤖 Archive when done** - AI-driven: The delta updates the main specs
 
 You create a new change proposal for each feature you want to add or modify.
 
@@ -150,11 +185,12 @@ design decision to document, you don't need a proposal.
 
 Not all AI agents are equal, and you should use them strategically (spend your AI credits wisely):
 
-### 🤖 Spec Creation (Steps 0, 2): Use Strong AI Agents
+### 🤖 Spec Creation (Steps 1, 3): Use Strong AI
 
 **When:** Creating specifications, asking clarifying questions, exploring requirements
 
-**Which AI:** Claude Opus-level models that can handle large context windows and reason about complex requirements
+**Why:** Specification creation requires understanding complex requirements, asking insightful questions, and
+reasoning about edge cases. This benefits from models with large context windows and strong reasoning capabilities.
 
 **Example chat prompts I use:**
 
@@ -162,22 +198,19 @@ Not all AI agents are equal, and you should use them strategically (spend your A
 - `"Review this change proposal and ask questions about anything unclear"`
 - `"What business rules should we consider for the loyalty points expiration?"`
 
-**Why strong AI:** Specification creation requires understanding complex requirements, asking insightful questions, and
-reasoning about edge cases. This benefits from models with large context windows and strong reasoning capabilities.
-
-### 👤 Review Mode (Steps 1, 3): Human Judgment Required
+### 👤 Review Mode (Steps 2, 4): Human Judgment Required
 
 **When:** Validating specifications before building on them
 
-**Why human:** Critical decisions about business rules, architectural trade-offs, and design intent require your
+**Why:** Critical decisions about business rules, architectural trade-offs, and design intent require your
 judgment. The AI can suggest, but you must validate.
 
-### 🤖 Execution & Archiving (Steps 4, 5): Use Regular AI Assistants
+### 🤖 Execution & Archiving (Steps 5, 6): Use Regular AI
 
 **When:** Implementing individual tasks from the change proposal, archiving completed changes
 
-**Which AI:** Your preferred AI assistant—GitHub Copilot, Claude Code, Cursor, Windsurf, or any coding-focused AI tool
-works perfectly fine here
+**Why:** Once the specification is clear, implementation and archiving are more straightforward
+tasks that don't require the same level of reasoning or context capacity.
 
 **Example workflow:**
 
@@ -185,11 +218,8 @@ works perfectly fine here
 - Use the AI for code generation following the specification, one task at a time
 - Each task references back to the change proposal for context
 
-**Why regular AI is sufficient:** Once the specification is clear, implementation and archiving are more straightforward
-tasks that don't require the same level of reasoning or context capacity.
-
-**The pattern:** Strong AI agents handle specification creation, you validate the decisions, and regular AI code
-assistants handle implementation and archiving.
+**The pattern:** Strong AI handles specification creation, you validate the decisions, and regular AI handles
+implementation and archiving.
 
 ---
 
@@ -253,9 +283,10 @@ generation. Think of it as a "contract" between your team and the AI agents you 
 - **Documentation standards** - How code should be documented
 - **Common pitfalls** - Known issues AI agents should avoid in your codebase
 
-**Note:** Some AI tools like GitHub Copilot do not automatically read AGENTS.md. To overcome this, you can point the
-AI tool to the AGENTS.md using e.g. `.github/copilot-instructions.md` (for Copilot) or `CLAUDE.md` with an instruction
-like this: "Always read /AGENTS.md".
+**Note:** Some AI tools do not automatically read AGENTS.md. To overcome this, you can configure your AI tool
+to include it (e.g., via tool-specific instruction files like `.github/copilot-instructions.md` or
+`.claude/settings.json`)
+or simply reference it in your prompts: "Always read /AGENTS.md".
 
 ### Example AGENTS.md Structure
 
@@ -299,7 +330,7 @@ like this: "Always read /AGENTS.md".
 
 ### How AI Agents Use AGENTS.md
 
-When you provide context to an AI agent (like GitHub Copilot, Cursor, Claude, or any coding assistant), include the
+When you provide context to an AI agent (any coding assistant), include the
 AGENTS.md file. The AI will:
 
 1. **Follow your conventions** instead of making assumptions
@@ -329,9 +360,9 @@ decisions.
 
 Let me show you how this works in practice. I'll extend
 the [architecture-as-code-example](https://github.com/flemming-n-larsen/architecture-as-code-example) repository to
-demonstrate the change cycle workflow (assuming you've already completed Steps 0-1 with your initial specs).
+demonstrate the change cycle workflow (assuming you've already completed Steps 1-2 with your initial specs).
 
-### Step 2: Create Change Proposal with Strong AI (e.g. Claude Opus)
+### Step 3: Create Change Proposal with Strong AI
 
 **My prompt:**
 
@@ -339,10 +370,9 @@ demonstrate the change cycle workflow (assuming you've already completed Steps 0
 "Create a new change proposal for: Add customer loyalty points system to the e-commerce platform. Customers earn 1 point per dollar spent, can redeem points for discounts, and points expire after 12 months."
 ```
 
-**Claude Opus response:** *(This would be a detailed change proposal with business rules, edge cases, and
-implementation tasks)*
+**AI response:** *(This would be a detailed change proposal with business rules, edge cases, and implementation tasks)*
 
-### Step 3: Human Review with AI Assistance
+### Step 4: Human Review with AI Assistance
 
 **🫵 You must review the change proposal** - validate business rules, architectural decisions, and edge cases.
 
@@ -358,10 +388,10 @@ before any code is written.
 
 **🚨 Critical:** Never skip human review. A flawed proposal will propagate errors through all implementation tasks.
 
-### Step 4: Implementation with Regular AI Assistants
+### Step 5: Implementation with Regular AI
 
-The change proposal already includes the tasks. Now I use my regular AI
-assistant to implement one task at a time:
+The change proposal already includes the tasks. Now I use regular AI
+to implement one task at a time:
 
 Each task references the change proposal for context:
 
@@ -430,7 +460,6 @@ your guardrail.
 
 ---
 
-
 ## Getting Started
 
 1. **Pick an existing project** (brownfield approach - like most real work)
@@ -438,16 +467,16 @@ your guardrail.
 3. **Create an `AGENTS.md` file** in your repository root with your AI guidelines
 4. **Document one current feature** as your initial specs baseline
 5. **Try the workflow with your next feature:**
-    - Use Claude Opus (or equivalent strong AI) to create the change proposal (the AI generates tasks as part of the proposal)
+    - Use strong AI to create the change proposal (the AI generates tasks as part of the proposal)
     - Review and refine with questions
-    - Implement one task at a time with regular AI assistance (referencing AGENTS.md)
+    - Implement one task at a time with regular AI (referencing AGENTS.md)
     - Archive the change when complete
 
 6. **Build the habit** - specifications before implementation for features and design changes
 
 ### Chat Prompts to Get Started
 
-**For initial specs (Claude Opus):**
+**For initial specs (strong AI):**
 
 ```
 "Create a specification document for the existing [feature name] in our [domain] system. Include business rules, validation logic, and design decisions."
