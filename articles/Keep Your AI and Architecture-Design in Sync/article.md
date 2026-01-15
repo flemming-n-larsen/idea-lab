@@ -3,7 +3,7 @@
 **Spec-driven development for AI agents that respect your design decisions**
 
 In my previous article, I showed
-how [keeping architecture diagrams in code](../Keep%20Your%20Architecture%20Diagrams%20in%20Code,%20Not%20in%20Tools/article.md)
+how [keeping architecture diagrams in code](https://architecture-as-code.hashnode.dev/keep-your-architecture-diagrams-in-code-not-in-tools)
 creates a foundation for AI-readable documentation. Architecture diagrams as Markdown + Mermaid give AI agents the
 structural view of your system.
 
@@ -17,8 +17,7 @@ it generates code that compiles but potentially violates your architectural patt
 your design intent, requirements, and business rules.
 
 **Note:** This article introduces the concept of spec-driven development (SDD) and demonstrates my personal workflow
-using
-OpenSpec as an example. It's not a comprehensive OpenSpec tutorial—for that, refer to
+using OpenSpec as an example. It's not a comprehensive OpenSpec tutorial—for that, refer to
 the [official documentation](https://github.com/Fission-AI/OpenSpec). Instead, I'll show you the principles and how I
 apply them in practice.
 
@@ -59,8 +58,7 @@ documentation tool.
 There are several popular spec-driven development methodologies:
 
 - **[GitHub Spec-Kit](https://github.com/github/spec-kit)** - GitHub's approach to specifications
-- **[BMAD (Build More, Architect Dreams)](https://github.com/bmad-code-org/BMAD-METHOD)** - Comprehensive architectural
-  methodology
+- **[BMAD (Build More, Architect Dreams)](https://github.com/bmad-code-org/BMAD-METHOD)** - Comprehensive architectural methodology
 - **[Kiro (by Amazon/AWS)](https://kiro.dev/)** - AWS-backed development framework
 
 I chose **OpenSpec** for three reasons:
@@ -72,8 +70,8 @@ I chose **OpenSpec** for three reasons:
 Most methodologies assume greenfield projects. OpenSpec recognizes that developers primarily work on existing systems.
 
 However, I'm not dogmatic about this choice—pick what works for your team. The key is having a spec-driven approach that
-provides the "internal view" for your AI agents. Spec-driven development itself is still early (formally defined in late
-2025), so expect methodologies to evolve as the industry matures.
+provides the "internal view" for your AI agents. Spec-driven development is still a maturing practice, so expect
+methodologies to continue evolving.
 
 ---
 
@@ -82,60 +80,75 @@ provides the "internal view" for your AI agents. Spec-driven development itself 
 OpenSpec provides a structured workflow for spec-driven development. You can find the complete process in
 the [official OpenSpec documentation](https://github.com/Fission-AI/OpenSpec?tab=readme-ov-file#how-it-works).
 
-Here's how I use it with AI agents:
+Here's how I structure it when working with AI agents (my own numbering for clarity):
 
-### 🤖 Step 0: Create Initial Spec (Brownfield or Greenfield)
+### 🤖 Step 0: Create Initial Specs (Brownfield or Greenfield)
 
 **AI-driven** - Use a strong AI agent (Claude Opus-level) to document the current system's behavior and design decisions
-for existing projects, or define initial requirements and architecture for new projects.
+for existing projects, or define initial requirements and architecture for new projects. These become your source of
+truth in `openspec/specs/`.
 
 **💡 Tip:** The AI can ask clarifying questions and help you think through edge cases you might miss. This is
 collaborative work between you and the AI.
 
 ### 👤 Step 1: Review the Foundation
 
-**Human review** - You must carefully review and validate that everything in your base specification is correct. This
+**Human review** - You must carefully review and validate that everything in your specs is correct. This
 becomes your architectural foundation.
 
-**💡 Tip:** This is critical—don't skip it! A flawed base specification will propagate errors through all future changes.
-The AI creates, but you validate. You will not lose anytime soon to AI as this is where humans excel!
+**💡 Tip:** This is critical—don't skip it! Flawed specs will propagate errors through all future changes.
+The AI creates, but you validate. You will not lose any time soon to AI as this is where humans excel!
 
 ### The Change Cycle
 
-**2. 🤖 Create new Change Spec** - AI-driven: Define what you want to add or modify  
-**3. 👤 Review change spec** - Human review: Refine it before starting any implementation!  
+**2. 🤖 Create Change Proposal** - AI-driven: Define what you want to add or modify  
+**3. 👤 Review the proposal** - Human review: Refine it before starting any implementation!  
 **4. 🔁 Execute one task at a time** - AI-driven: Implement incrementally (loop until all tasks complete)  
-**5. 🤖 Archive the spec when done** - AI-driven: The delta updates the main spec
+**5. 🤖 Archive when done** - AI-driven: The delta updates the main specs
 
-You create a new change spec for each feature you want to add or modify.
+You create a new change proposal for each feature you want to add or modify.
 
 **💡 Why one task at a time?** You could ask the AI to handle all tasks at once, but I don't recommend it:
 
 - **Better code reviews**: Incremental PRs are easier to review than one massive "big bang" change
 - **AI focus**: Like humans, AI works better when focused on a single task with limited context
-- **Flexibility**: You can pause between tasks to handle other work or shut down/reboot your computer, if you have to
+- **Flexibility**: You can pause between tasks to handle other work
 - **Error correction**: Mistakes caught early don't propagate through all remaining tasks
 
-**💡 Key Tips for AI Agent Usage:**
+---
 
-- **🤖 Use strong AI for steps 0, 2** (spec creation): Claude Opus 4.5'ish models that can handle large context and
-  reason about complex requirements. Keep in mind that the AI need to grasp both the existing specs, change specs, and
-  the source code involved.
-- **🤖 Use regular AI for steps 4, 5** (execution & archiving): Your preferred AI assistant, like Claude Sonnet 4.5,
-  GPT-5.2, Gemini 2.5 should works just fine for implementation and archiving. Personally, I prefer Claude Sonnet for
-  coding tasks.
-- **👤 Use human review for steps 1, 3** (validation): Your judgment is critical for validating specifications before
-  building on them.
-- **Separate planning from execution**: This prevents the AI from jumping to implementation before the design is solid
-- **Always reference the change spec**: When implementing, include specification references in comments so the AI has
-  full context
+## When to Use Change Proposals (And When Not To)
+
+**Not all tasks require a change proposal.** Use your judgment to determine the appropriate workflow.
+
+### ✅ Use Change Proposals For:
+
+- **New features** that add or modify business logic
+- **Architectural changes** that affect multiple components
+- **Design decisions** that need to be documented
+- **Complex bug fixes** that involve business rules or validation logic
+- **API changes** that affect contracts between components
+
+### ❌ Skip Change Proposals For:
+
+- **Debugging** and troubleshooting issues
+- **Fixing warnings** or linting errors
+- **Minor refactoring** that doesn't impact design (renaming variables, extracting methods)
+- **Dependency updates** that don't change behavior
+- **Code formatting** and style improvements
+- **Simple bug fixes** with obvious solutions
+
+**For these simpler tasks:** Work as you normally would with your AI assistant. The key is to ensure your `AGENTS.md`
+provides good guidelines so the AI respects your code conventions even during routine maintenance work.
+
+**The principle:** Change proposals are for capturing design intent and architectural decisions. If there's no
+design decision to document, you don't need a proposal.
 
 ---
 
 ## AI Agent Role Differentiation
 
-This is where the methodology gets practical. Not all AI agents are equal, and you should use them strategically (I
-spend your AI credits and money wisely):
+Not all AI agents are equal, and you should use them strategically (spend your AI credits wisely):
 
 ### 🤖 Spec Creation (Steps 0, 2): Use Strong AI Agents
 
@@ -145,8 +158,8 @@ spend your AI credits and money wisely):
 
 **Example chat prompts I use:**
 
-- `"Create a new change specification for: Add customer loyalty points system"`
-- `"Review this change specification and ask questions about anything unclear"`
+- `"Create a new change proposal for: Add customer loyalty points system"`
+- `"Review this change proposal and ask questions about anything unclear"`
 - `"What business rules should we consider for the loyalty points expiration?"`
 
 **Why strong AI:** Specification creation requires understanding complex requirements, asking insightful questions, and
@@ -161,16 +174,16 @@ judgment. The AI can suggest, but you must validate.
 
 ### 🤖 Execution & Archiving (Steps 4, 5): Use Regular AI Assistants
 
-**When:** Implementing individual tasks from the change specification, archiving completed specs
+**When:** Implementing individual tasks from the change proposal, archiving completed changes
 
 **Which AI:** Your preferred AI assistant—GitHub Copilot, Claude Code, Cursor, Windsurf, or any coding-focused AI tool
 works perfectly fine here
 
 **Example workflow:**
 
-- The change specification already includes tasks (OpenSpec generates them when creating the spec)
+- The change proposal includes tasks (your AI generates them as part of the proposal)
 - Use the AI for code generation following the specification, one task at a time
-- Each task references back to the change specification for context
+- Each task references back to the change proposal for context
 
 **Why regular AI is sufficient:** Once the specification is clear, implementation and archiving are more straightforward
 tasks that don't require the same level of reasoning or context capacity.
@@ -182,7 +195,7 @@ assistants handle implementation and archiving.
 
 ## Folder Structure: /openspec + /docs
 
-OpenSpec recommends the `/openspec` folder convention. This complements (doesn't replace) your `/docs` architecture
+OpenSpec uses the `/openspec` folder convention. This complements (doesn't replace) your `/docs` architecture
 diagrams:
 
 ```
@@ -198,14 +211,18 @@ your-project/
 │           ├── create-order.md  # Sequence diagrams
 │           └── payment-processing.md
 ├── openspec/
-│   ├── main-spec.md             # Aggregated specifications
-│   ├── change-specs/
-│   │   ├── loyalty-points.md    # Active change specification
-│   │   └── archived/
-│   │       └── user-registration.md  # Completed change specs
-│   └── business-rules/
-│       ├── order-validation.md  # Business logic specifications
-│       └── payment-policies.md  # Domain rules and constraints
+│   ├── specs/                   # Source of truth specifications
+│   │   ├── order/
+│   │   │   └── spec.md          # Order domain specification
+│   │   └── customer/
+│   │       └── spec.md          # Customer domain specification
+│   └── changes/                 # Active and archived change proposals
+│       ├── loyalty-points/      # Active change proposal
+│       │   ├── proposal.md
+│       │   ├── tasks.md
+│       │   └── specs/           # Spec deltas for this change
+│       └── archived/
+│           └── user-registration/  # Completed change proposal
 └── src/
     └── ... # Your application code
 ```
@@ -213,7 +230,8 @@ your-project/
 **The relationship:**
 
 - `/docs` provides **structural understanding** (what entities exist, how they relate)
-- `/openspec` provides **behavioral specifications** (business rules, validation logic, design decisions)
+- `/openspec/specs` provides **behavioral specifications** (business rules, validation logic, design decisions)
+- `/openspec/changes` captures **proposed modifications** with tasks and spec deltas
 
 Together, they give AI agents the complete "internal view" of your system.
 
@@ -235,10 +253,9 @@ generation. Think of it as a "contract" between your team and the AI agents you 
 - **Documentation standards** - How code should be documented
 - **Common pitfalls** - Known issues AI agents should avoid in your codebase
 
-**Note:** Some AI tools like GitHub Copilot does not automatically read AGENTS.md. To overcome this, you can point the
-AI tool to the AGENTS.md using e.g. `.github/copilot-instructions.md` (for Coplit) or `CLAUDE.md` with an instruction
-like
-this: "Always use /AGENTS.md".
+**Note:** Some AI tools like GitHub Copilot do not automatically read AGENTS.md. To overcome this, you can point the
+AI tool to the AGENTS.md using e.g. `.github/copilot-instructions.md` (for Copilot) or `CLAUDE.md` with an instruction
+like this: "Always read /AGENTS.md".
 
 ### Example AGENTS.md Structure
 
@@ -312,45 +329,45 @@ decisions.
 
 Let me show you how this works in practice. I'll extend
 the [architecture-as-code-example](https://github.com/flemming-n-larsen/architecture-as-code-example) repository to
-demonstrate the complete workflow.
+demonstrate the change cycle workflow (assuming you've already completed Steps 0-1 with your initial specs).
 
-### Step 1: Planning with Strong AI (e.g. Claude Opus)
+### Step 2: Create Change Proposal with Strong AI (e.g. Claude Opus)
 
 **My prompt:**
 
 ```
-"Create a new change specification for: Add customer loyalty points system to the e-commerce platform. Customers earn 1 point per dollar spent, can redeem points for discounts, and points expire after 12 months."
+"Create a new change proposal for: Add customer loyalty points system to the e-commerce platform. Customers earn 1 point per dollar spent, can redeem points for discounts, and points expire after 12 months."
 ```
 
-**Claude Opus response:** *(This would be a detailed change specification with business rules, edge cases, and
-implementation considerations)*
+**Claude Opus response:** *(This would be a detailed change proposal with business rules, edge cases, and
+implementation tasks)*
 
-### Step 2: Human Review with AI Assistance
+### Step 3: Human Review with AI Assistance
 
-**🫵 You must review the change specification** - validate business rules, architectural decisions, and edge cases.
+**🫵 You must review the change proposal** - validate business rules, architectural decisions, and edge cases.
 
 **Optional: Use AI to help refine:**
 
 ```
-"Review this change specification. What business rules should we consider for edge cases like refunds, partial orders, and account deletions?"
+"Review this change proposal. What business rules should we consider for edge cases like refunds, partial orders, and account deletions?"
 ```
 
 The AI can help you think through edge cases and ask clarifying questions, but **you validate and approve** the final
-specification. This iterative refinement with AI assistance ensures the specification captures all design decisions
+proposal. This iterative refinement with AI assistance ensures the proposal captures all design decisions
 before any code is written.
 
-**🚨 Critical:** Never skip human review. A flawed specification will propagate errors through all implementation tasks.
+**🚨 Critical:** Never skip human review. A flawed proposal will propagate errors through all implementation tasks.
 
-### Step 3: Implementation with Regular AI Assistants
+### Step 4: Implementation with Regular AI Assistants
 
-The change specification already includes the tasks (OpenSpec generates them automatically). Now I use my regular AI
+The change proposal already includes the tasks. Now I use my regular AI
 assistant to implement one task at a time:
 
-Each task references the change specification for context:
+Each task references the change proposal for context:
 
 ```typescript
 // Task: Implement LoyaltyPoints entity
-// Reference: /openspec/change-specs/loyalty-points.md section 2.1
+// Reference: /openspec/changes/loyalty-points/specs/customer/spec.md
 
 class LoyaltyPoints {
     // Implementation guided by the specification...
@@ -358,7 +375,7 @@ class LoyaltyPoints {
 ```
 
 The AI assistant generates code that follows the architectural patterns from `/docs`, respects the business rules
-from `/openspec`, and adheres to the coding conventions from `/AGENTS.md`.
+from `/openspec/specs`, and adheres to the coding conventions from `/AGENTS.md`.
 
 ---
 
@@ -368,9 +385,9 @@ If you're already using the architecture-as-code approach from my previous artic
 
 1. **Keep your existing `/docs` architecture** - it's still valuable structural context
 2. **Add an `/openspec` folder** following the convention
-3. **Start with one change specification** for your next feature
+3. **Start with one change proposal** for your next feature
 4. **Use the AI agent differentiation** - strong AI for planning, regular AI for execution
-5. **Archive completed change specs** to expand your specification knowledge base with the changes
+5. **Archive completed changes** to update your specs with the deltas
 
 ### PR Review Process
 
@@ -378,10 +395,10 @@ Your pull requests now include:
 
 - **Code changes** (as always)
 - **Architecture diagram updates** (from previous article methodology)
-- **Specification updates** (new - the delta from archived change specs)
+- **Specification updates** (the delta from archived change proposals)
 
 Reviewers can see the complete context: what changed in the structure (diagrams), what changed in the behavior (specs),
-and how it was implemented (code). This makes it must easier to figure out what the PR is all about instead of "just"
+and how it was implemented (code). This makes it much easier to figure out what the PR is all about instead of "just"
 reviewing plain code changes.
 
 ---
@@ -413,67 +430,39 @@ your guardrail.
 
 ---
 
-## When to Use Change Specifications (And When Not To)
-
-**Not all tasks require a change specification.** Use your judgment to determine the appropriate workflow.
-
-### ✅ Use Change Specifications For:
-
-- **New features** that add or modify business logic
-- **Architectural changes** that affect multiple components
-- **Design decisions** that need to be documented
-- **Complex bug fixes** that involve business rules or validation logic
-- **API changes** that affect contracts between components
-
-### ❌ Skip Change Specifications For:
-
-- **Debugging** and troubleshooting issues
-- **Fixing warnings** or linting errors
-- **Minor refactoring** that doesn't impact design (renaming variables, extracting methods)
-- **Dependency updates** that don't change behavior
-- **Code formatting** and style improvements
-- **Simple bug fixes** with obvious solutions
-
-**For these simpler tasks:** Work as you normally would with your AI assistant. The key is to ensure your `AGENTS.md`
-provides good guidelines so the AI respects your code conventions even during routine maintenance work.
-
-**The principle:** Change specifications are for capturing design intent and architectural decisions. If there's no
-design decision to document, you don't need a specification.
-
----
 
 ## Getting Started
 
 1. **Pick an existing project** (brownfield approach - like most real work)
 2. **Create an `/openspec` folder** alongside your existing code
 3. **Create an `AGENTS.md` file** in your repository root with your AI guidelines
-4. **Document one current feature** as your initial specification baseline
+4. **Document one current feature** as your initial specs baseline
 5. **Try the workflow with your next feature:**
-    - Use Claude Opus (or equivalent strong AI) to create the change specification (tasks are generated automatically)
+    - Use Claude Opus (or equivalent strong AI) to create the change proposal (the AI generates tasks as part of the proposal)
     - Review and refine with questions
     - Implement one task at a time with regular AI assistance (referencing AGENTS.md)
-    - Archive the change spec when complete
+    - Archive the change when complete
 
 6. **Build the habit** - specifications before implementation for features and design changes
 
 ### Chat Prompts to Get Started
 
-**For initial specification (Claude Opus):**
+**For initial specs (Claude Opus):**
 
 ```
 "Create a specification document for the existing [feature name] in our [domain] system. Include business rules, validation logic, and design decisions."
 ```
 
-**For change specifications:**
+**For change proposals:**
 
 ```
-"Create a new change specification for: [new feature description]"
+"Create a new change proposal for: [new feature description]"
 ```
 
 **For archiving:**
 
 ```
-"Archive change specification [name] and update the main specification with the implemented changes"
+"Archive the [change name] change and update the main specs with the implemented changes"
 ```
 
 ---
