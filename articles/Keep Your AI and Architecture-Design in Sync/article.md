@@ -2,6 +2,13 @@
 
 **Spec-driven development for AI agents that respect your design decisions**
 
+**📖 Prerequisites:** This article builds directly on the concepts from my previous article:
+[Keep Your Architecture Diagrams in Code, Not in Tools](https://architecture-as-code.hashnode.dev/keep-your-architecture-diagrams-in-code-not-in-tools).
+If you haven't read it yet, start there first—it establishes the foundation of architecture-as-code that this article
+extends.
+
+---
+
 In my previous article, I showed
 how [keeping architecture diagrams in code](https://architecture-as-code.hashnode.dev/keep-your-architecture-diagrams-in-code-not-in-tools)
 creates a foundation for AI-readable documentation. Architecture diagrams as Markdown + Mermaid give AI agents the
@@ -119,20 +126,21 @@ Here's how I structure it when working with AI agents (my own numbering for clar
 
 ### 🤖 Step 1: Create Initial Specs (Brownfield or Greenfield)
 
-**AI-driven** - Use strong AI to document the current system's behavior and design decisions
-for existing projects, or define initial requirements and architecture for new projects. These become your source of
-truth in `openspec/specs/`.
+**AI-driven** - Use **strong AI** to document the current system's behavior and design decisions for existing projects,
+or define initial requirements and architecture for new projects. These become your source of truth in
+`openspec/specs/`.
 
-**💡 Tip:** The AI can ask clarifying questions and help you think through edge cases you might miss. This is
-collaborative work between you and the AI.
+**💡 Tip:** Use your AI's **"plan" mode** (or equivalent) for this step. This mode encourages the AI to ask clarifying
+questions and think through edge cases before generating output—exactly what you want for specification creation.
+This is collaborative work between you and the AI.
 
 ### 👤 Step 2: Review the Foundation
 
-**Human review** - You must carefully review and validate that everything in your specs is correct. This
-becomes your architectural foundation.
+**Human review** - You must carefully review and validate that everything in your specs is correct. This becomes your
+architectural foundation.
 
-**💡 Tip:** This is critical—don't skip it! Flawed specs will propagate errors through all future changes.
-The AI creates, but you validate. You will not lose any time soon to AI as this is where humans excel!
+**⚠️ Warning:** This is critical—don't skip it! Flawed specs will propagate errors through all future changes.
+The AI creates, but you validate. 👤 You will not lose any time soon to AI as this is where humans excel! 💡
 
 ### The Change Cycle
 
@@ -145,10 +153,10 @@ You create a new change proposal for each feature you want to add or modify.
 
 **💡 Why one task at a time?** You could ask the AI to handle all tasks at once, but I don't recommend it:
 
-- **Better code reviews**: Incremental PRs are easier to review than one massive "big bang" change
-- **AI focus**: Like humans, AI works better when focused on a single task with limited context
-- **Flexibility**: You can pause between tasks to handle other work
 - **Error correction**: Mistakes caught early don't propagate through all remaining tasks
+- **AI focus**: Like humans, AI works better when focused on a single task with limited context
+- **Better code reviews**: Incremental PRs are easier to review than one massive "big bang" change
+- **Flexibility**: You can pause between tasks to handle other work
 
 ---
 
@@ -176,8 +184,8 @@ You create a new change proposal for each feature you want to add or modify.
 **For these simpler tasks:** Work as you normally would with your AI assistant. The key is to ensure your `AGENTS.md`
 provides good guidelines so the AI respects your code conventions even during routine maintenance work.
 
-**The principle:** Change proposals are for capturing design intent and architectural decisions. If there's no
-design decision to document, you don't need a proposal.
+**The principle:** Change proposals are for capturing design intent and architectural decisions. If there's no design
+decision to document, you don't need a proposal.
 
 ---
 
@@ -192,6 +200,10 @@ Not all AI agents are equal, and you should use them strategically (spend your A
 **Why:** Specification creation requires understanding complex requirements, asking insightful questions, and
 reasoning about edge cases. This benefits from models with large context windows and strong reasoning capabilities.
 
+**💡 Use "plan" mode:** Most agentic AI tools have a "plan" or "architect" mode that prioritizes thinking and
+questioning over immediate action. Use this mode for spec creation—it encourages the AI to ask clarifying questions
+rather than jumping straight to generating output.
+
 **Example chat prompts I use:**
 
 - `"Create a new change proposal for: Add customer loyalty points system"`
@@ -205,12 +217,16 @@ reasoning about edge cases. This benefits from models with large context windows
 **Why:** Critical decisions about business rules, architectural trade-offs, and design intent require your
 judgment. The AI can suggest, but you must validate.
 
+**💡 Team Review:** Consider creating a PR for specification changes (especially for Steps 2 and 4). This allows team
+members to review and validate business rules, architectural decisions, and edge cases before any code is written.
+Specifications are architectural decisions—they benefit from collaborative review just like code does.
+
 ### 🤖 Execution & Archiving (Steps 5, 6): Use Regular AI
 
 **When:** Implementing individual tasks from the change proposal, archiving completed changes
 
-**Why:** Once the specification is clear, implementation and archiving are more straightforward
-tasks that don't require the same level of reasoning or context capacity.
+**Why:** Once the specification is clear, implementation and archiving are more straightforward tasks that don't require
+the same level of reasoning or context capacity.
 
 **Example workflow:**
 
@@ -283,10 +299,11 @@ generation. Think of it as a "contract" between your team and the AI agents you 
 - **Documentation standards** - How code should be documented
 - **Common pitfalls** - Known issues AI agents should avoid in your codebase
 
-**Note:** Some AI tools do not automatically read AGENTS.md. To overcome this, you can configure your AI tool
-to include it (e.g., via tool-specific instruction files like `.github/copilot-instructions.md` or
-`.claude/settings.json`)
-or simply reference it in your prompts: "Always read /AGENTS.md".
+**Note:** Some AI tools do not automatically read AGENTS.md. To overcome this, you can either:
+
+1. **Use tool-specific instruction files** that redirect to AGENTS.md (e.g., `.github/copilot-instructions.md` or
+   `CLAUDE.md` containing: "Always read /AGENTS.md"), or
+2. **Reference it in your prompts:** e.g., `"Follow the guidelines in AGENTS.md while implementing this feature"`
 
 ### Example AGENTS.md Structure
 
@@ -330,8 +347,7 @@ or simply reference it in your prompts: "Always read /AGENTS.md".
 
 ### How AI Agents Use AGENTS.md
 
-When you provide context to an AI agent (any coding assistant), include the
-AGENTS.md file. The AI will:
+When you provide context to an AI agent (any coding assistant), include the AGENTS.md file. The AI will:
 
 1. **Follow your conventions** instead of making assumptions
 2. **Respect your architecture** instead of introducing new patterns
@@ -344,15 +360,12 @@ This creates a "predictable AI behavior" where different team members get consis
 
 `AGENTS.md` complements your specifications:
 
+- **/docs** tells the AI **where it fits** (architecture, system structure)
 - **/openspec** tells the AI **what to build** (business logic, requirements)
 - **AGENTS.md** tells the AI **how to build it** (code style, patterns, conventions)
-- **/docs** tells the AI **where it fits** (architecture, system structure)
 
 Together, they provide complete guidance for AI-generated code that aligns with your team's standards and architectural
 decisions.
-
-**💡 Tip:** Keep AGENTS.md in your repository root and reference it in your AI prompts:
-`"Follow the guidelines in AGENTS.md while implementing this feature."`
 
 ---
 
@@ -383,15 +396,14 @@ demonstrate the change cycle workflow (assuming you've already completed Steps 1
 ```
 
 The AI can help you think through edge cases and ask clarifying questions, but **you validate and approve** the final
-proposal. This iterative refinement with AI assistance ensures the proposal captures all design decisions
-before any code is written.
+proposal. This iterative refinement with AI assistance ensures the proposal captures all design decisions before any
+code is written.
 
 **🚨 Critical:** Never skip human review. A flawed proposal will propagate errors through all implementation tasks.
 
 ### Step 5: Implementation with Regular AI
 
-The change proposal already includes the tasks. Now I use regular AI
-to implement one task at a time:
+The change proposal already includes the tasks. Now I use regular AI to implement one task at a time.
 
 Each task references the change proposal for context:
 
@@ -411,13 +423,11 @@ from `/openspec/specs`, and adheres to the coding conventions from `/AGENTS.md`.
 
 ## Integration with Your Existing Workflow
 
-If you're already using the architecture-as-code approach from my previous article, adding OpenSpec is straightforward:
+If you're already using the architecture-as-code approach from my previous article, adding OpenSpec is straightforward.
+Your `/docs` architecture diagrams remain valuable structural context—OpenSpec's `/openspec` folder and `AGENTS.md`
+simply add the behavioral specifications on top.
 
-1. **Keep your existing `/docs` architecture** - it's still valuable structural context
-2. **Add an `/openspec` folder** following the convention
-3. **Start with one change proposal** for your next feature
-4. **Use the AI agent differentiation** - strong AI for planning, regular AI for execution
-5. **Archive completed changes** to update your specs with the deltas
+See the **Getting Started** section below for step-by-step instructions.
 
 ### PR Review Process
 
@@ -458,10 +468,17 @@ keep them "on the rails" with clear specifications. Without specs, a powerful AI
 code that compiles and runs—but violates your architecture in ways that compound over time. Spec-driven development is
 your guardrail.
 
+**💡 Note:** Spec-driven development is a valuable practice even without AI. Writing specifications before implementation
+helps teams align on requirements, catch design issues early, and document architectural decisions. AI agents simply
+make this practice more critical—they can generate code much faster, so the cost of unclear specifications is amplified.
+
 ---
 
 ## Getting Started
 
+0. **Read the prerequisite article first** - If you haven't already,
+   read [Keep Your Architecture Diagrams in Code, Not in Tools](https://architecture-as-code.hashnode.dev/keep-your-architecture-diagrams-in-code-not-in-tools)
+   to establish the `/docs` foundation
 1. **Pick an existing project** (brownfield approach - like most real work)
 2. **Create an `/openspec` folder** alongside your existing code
 3. **Create an `AGENTS.md` file** in your repository root with your AI guidelines
@@ -521,13 +538,14 @@ The repository with the complete OpenSpec integration will be available shortly:
 
 ## Final Words
 
-Using AI assistants has already been an AHA! experience to most developers, and you can be more productive when using
-AI.
+Most developers have already experienced the "wow" moment with AI assistants—that first realization of how much faster
+you can code with AI help. It's eye-opening, and productivity jumps immediately.
 
-**Using spec-driven development is the next big step when using AI for software development.**
+**Spec-driven development is your next breakthrough.** 🚀
 
-It transforms AI from a code generator into an architecture-aware development partner that respects your design
-decisions and maintains the integrity of your system as it evolves.
+It transforms AI from a helpful code generator into an architecture-aware development partner that respects your design
+decisions and maintains the integrity of your system as it evolves. This is the difference between being productive
+with AI and building maintainable systems with AI.
 
 ---
 
