@@ -1,12 +1,14 @@
 # AI Agent Guidelines
 
-**Purpose:** This file provides guidelines for AI agents working with this codebase. It ensures consistent, architecture-aligned code generation across different AI sessions and team members.
+**Purpose:** This file provides guidelines for AI agents working with this codebase. It ensures consistent,
+architecture-aligned code generation across different AI sessions and team members.
 
 ---
 
 ## Code Style
 
 ### TypeScript/JavaScript
+
 - Use TypeScript strict mode (`"strict": true`)
 - Prefer `const` over `let`, avoid `var`
 - Use functional programming patterns where appropriate
@@ -15,6 +17,7 @@
 - Always handle errors explicitly (no silent failures)
 
 ### Formatting
+
 - Use 2-space indentation
 - Use semicolons
 - Single quotes for strings
@@ -25,17 +28,20 @@
 ## Architecture Patterns
 
 ### Repository Structure
+
 - Follow the existing structure in `/docs` and `/openspec`
 - All business logic must have corresponding specifications in `/openspec`
 - Architecture diagrams in `/docs` must be updated when entity structure changes
 
 ### Code Organization
+
 - Domain entities follow the existing pattern (see `/docs/architecture/domain/`)
 - Business rules are defined in `/openspec/business-rules/`
 - State machines must match the diagrams in entity documentation
 - API endpoints follow RESTful conventions
 
 ### Design Patterns
+
 - Use Repository pattern for data access
 - Use Service layer for business logic
 - Use Factory pattern for complex object creation
@@ -46,30 +52,33 @@
 ## Testing Requirements
 
 ### Coverage
+
 - Minimum 80% code coverage for business logic
 - 100% coverage for critical paths (payment, order processing)
 - Integration tests required for all API endpoints
 
 ### Test Structure
+
 - Follow Arrange-Act-Assert pattern
 - One assertion per test when possible
 - Test file names: `*.test.ts` or `*.spec.ts`
 - Reference business rules from `/openspec` in test descriptions
 
 ### Example Test Pattern
+
 ```typescript
 describe('Order.cancelOrder', () => {
-  it('should cancel pending order and refund payment (ref: /openspec/business-rules/order-validation.md)', () => {
-    // Arrange
-    const order = createTestOrder({ status: 'pending' });
-    
-    // Act
-    const result = order.cancelOrder();
-    
-    // Assert
-    expect(result.status).toBe('cancelled');
-    expect(result.refundIssued).toBe(true);
-  });
+    it('should cancel pending order and refund payment (ref: /openspec/business-rules/order-validation.md)', () => {
+        // Arrange
+        const order = createTestOrder({status: 'pending'});
+
+        // Act
+        const result = order.cancelOrder();
+
+        // Assert
+        expect(result.status).toBe('cancelled');
+        expect(result.refundIssued).toBe(true);
+    });
 });
 ```
 
@@ -78,12 +87,14 @@ describe('Order.cancelOrder', () => {
 ## Documentation Standards
 
 ### Code Comments
+
 - All public APIs must have JSDoc comments
 - Complex business logic requires inline explanations
 - Reference specification files when implementing business rules
 - Explain "why" not "what" in comments
 
 ### JSDoc Example
+
 ```typescript
 /**
  * Calculates loyalty points earned for an order
@@ -92,12 +103,14 @@ describe('Order.cancelOrder', () => {
  * @see /openspec/change-specs/loyalty-points.md section 2.1
  */
 function calculateLoyaltyPoints(orderTotal: number): number {
-  // Implementation...
+    // Implementation...
 }
 ```
 
 ### Specification References
+
 When implementing features from change specifications, include references:
+
 ```typescript
 // Reference: /openspec/change-specs/loyalty-points.md section 3.2
 // Business rule: Points expire 12 months after earning date
@@ -108,6 +121,7 @@ When implementing features from change specifications, include references:
 ## Common Pitfalls to Avoid
 
 ### ❌ Don't Do This
+
 - Don't bypass the validation layer
 - Don't create new design patterns when existing ones work
 - Don't skip error handling
@@ -118,6 +132,7 @@ When implementing features from change specifications, include references:
 - Don't skip PR reviews for "small changes"
 
 ### ✅ Do This Instead
+
 - Always use the existing validation service
 - Follow established patterns from `/docs/architecture`
 - Implement comprehensive error handling with meaningful messages
@@ -132,34 +147,37 @@ When implementing features from change specifications, include references:
 ## Business Logic Implementation
 
 ### Order Processing
+
 - Always validate order state transitions (see `/openspec/business-rules/order-validation.md`)
 - Check inventory before confirming orders
 - Payment must be authorized before order confirmation
 - Refunds are processed for cancelled confirmed orders
 
 ### Payment Processing
+
 - Maximum 3 retry attempts for failed payments
 - All payment operations must be idempotent
 - Use payment service layer (don't call payment gateway directly)
 - Log all payment transactions for audit
 
 ### Error Handling
+
 ```typescript
 // ✅ Good: Specific error handling with context
 try {
-  await orderService.confirmOrder(orderId);
+    await orderService.confirmOrder(orderId);
 } catch (error) {
-  if (error instanceof InsufficientInventoryError) {
-    throw new BusinessLogicError('Cannot confirm order: insufficient inventory', { orderId });
-  }
-  throw error;
+    if (error instanceof InsufficientInventoryError) {
+        throw new BusinessLogicError('Cannot confirm order: insufficient inventory', {orderId});
+    }
+    throw error;
 }
 
 // ❌ Bad: Generic catch-all
 try {
-  await orderService.confirmOrder(orderId);
+    await orderService.confirmOrder(orderId);
 } catch (error) {
-  console.log('Error');
+    console.log('Error');
 }
 ```
 
