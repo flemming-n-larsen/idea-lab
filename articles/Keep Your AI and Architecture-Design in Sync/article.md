@@ -550,6 +550,6 @@ with AI and building maintainable systems with AI.
 ---
 
 **Previous Article:
-** [Keep Your Architecture Diagrams in Code, Not in Tools](../Keep%20Your%20Architecture%20Diagrams%20in%20Code,%20Not%20in%20Tools/article.md)
+** [Keep Your Architecture Diagrams in Code, Not in Tools](https://architecture-as-code.hashnode.dev/keep-your-architecture-diagrams-in-code-not-in-tools)
 
 #SpecDrivenDevelopment #SDD #OpenSpec #AIAssisted #SoftwareArchitecture #DeveloperTools #TechWriting
