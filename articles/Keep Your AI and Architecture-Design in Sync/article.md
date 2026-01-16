@@ -3,7 +3,7 @@
 **Spec-driven development for AI agents that respect your design decisions**
 
 **📖 Prerequisites:** This article builds directly on the concepts from my previous article:
-[Keep Your Architecture Diagrams in Code, Not in Tools](https://architecture-as-code.hashnode.dev/keep-your-architecture-diagrams-in-code-not-in-tools).
+[Keep Your Architecture Diagrams in Code, Not in Tools](https://www.linkedin.com/pulse/keep-your-architecture-diagrams-code-tools-flemming-n%C3%B8rnberg-larsen-egkse).
 If you haven't read it yet, start there first—it establishes the foundation of architecture-as-code that this article
 extends.
 
@@ -50,10 +50,15 @@ assistants that go beyond simple autocomplete.
 
 I distinguish between two categories based on capability and cost:
 
-| Term           | Description                                                                    | Examples                                 | Use For                                                     |
-|:---------------|:-------------------------------------------------------------------------------|:-----------------------------------------|:------------------------------------------------------------|
-| **Strong AI**  | Premium, frontier-class models with advanced reasoning and high-level strategy | Claude 4.5 Opus, Gemini Ultra            | Spec creation, architectural planning, requirement analysis |
-| **Regular AI** | High-performance coding assistants, cost-effective for implementation          | Claude 4.5 Sonnet, GPT-5.2, Gemini 3 Pro | Code implementation, task execution, archiving              |
+**🧠 Strong AI**
+- **Description:** Premium, frontier-class models with advanced reasoning and high-level strategy
+- **Examples:** Claude 4.5 Opus, Gemini Ultra
+- **Use For:** Spec creation, architectural planning, requirement analysis
+
+**⚡ Regular AI**
+- **Description:** High-performance coding assistants, cost-effective for implementation
+- **Examples:** Claude 4.5 Sonnet, GPT-5.2, Gemini 3 Pro
+- **Use For:** Code implementation, task execution, archiving
 
 **Why the distinction?** **Strong AI** models excel at understanding complex requirements and reasoning about edge
 cases—but they are more resource-intensive. **Regular AI** models are incredibly fast and perfectly capable of
@@ -550,6 +555,6 @@ with AI and building maintainable systems with AI.
 ---
 
 **Previous Article:
-** [Keep Your Architecture Diagrams in Code, Not in Tools](https://architecture-as-code.hashnode.dev/keep-your-architecture-diagrams-in-code-not-in-tools)
+** [Keep Your Architecture Diagrams in Code, Not in Tools](https://www.linkedin.com/pulse/keep-your-architecture-diagrams-code-tools-flemming-n%C3%B8rnberg-larsen-egkse)
 
 #SpecDrivenDevelopment #SDD #OpenSpec #AIAssisted #SoftwareArchitecture #DeveloperTools #TechWriting
